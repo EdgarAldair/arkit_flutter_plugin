@@ -1,10 +1,14 @@
 import ARKit
 
 extension FlutterArkitView {
-    func onAddNode(_ arguments: [String: Any]) {
+       func onAddNode(_ arguments: [String: Any]) {
         let geometryArguments = arguments["geometry"] as? [String: Any]
         let geometry = createGeometry(geometryArguments, withDevice: sceneView.device)
         let node = createNode(geometry, fromDict: arguments, forDevice: sceneView.device, channel: channel)
+    
+        node.eulerAngles = SCNVector3Zero
+        node.orientation = SCNQuaternion(0, 0, 0, 1)
+    
         if let parentNodeName = arguments["parentNodeName"] as? String {
             let parentNode = sceneView.scene.rootNode.childNode(withName: parentNodeName, recursively: true)
             parentNode?.addChildNode(node)
